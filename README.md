@@ -1,14 +1,16 @@
-# Project Title
+# Fire Monitor Simulation
 
-Group Member names
+Colton Trujillo & Marcus Trujillo
 
 ### Introduction
 
-Introduction and summary of project.
+This project simulates a network of sensors that use agents to communicate with a central base station to log
+the behavior of forest fires.
 
 ### Usage
 
-Instructions for using program.
+Run the program from the command-line, feeding in an argument with the complete path to the configuration file
+you will use.
 
 ### Project Assumptions
 
@@ -25,11 +27,12 @@ All version submitted and their features.
 
 ### Docs
 
-Specify where the design document is.
+The design document is in the doc folder.
 
 ### Known Issues
 
-List any known bugs here, we grade more leniently if bugs found are listed here.
+Does not read in config file.
+Does not extract data from config file strings into any structures. 
 
 ### Testing and Debugging
 
