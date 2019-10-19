@@ -17,6 +17,7 @@ you will use.
 List any assumptions outside of one's specified in project writeup.
 
 ### Design Choice
+For parsing the configuration file, we decided to...
 
 Explain any special algorithm, data structure, or logic used that was crucial to 
 solving the problem. Also explain any design choice you feel is important.
