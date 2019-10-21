@@ -31,9 +31,11 @@ All version submitted and their features.
 The design document is in the doc folder.
 
 ### Known Issues
-
+Does not have LogEntry class
+Does not have Coordinate class 
 Does not read in config file.
 Does not extract data from config file strings into any structures. 
+Does not handle redundant station specs coming in from the config file 
 
 ### Testing and Debugging
 
