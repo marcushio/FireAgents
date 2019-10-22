@@ -2,7 +2,14 @@
  * @author: Marcus Trujillo
  * @author: Colton Trujillo
  * @version:
- * brief class description
+ * Represents the node sensors in the network that can change color.
  */
-public class Node {
+enum COLOR{RED, YELLOW, BLUE}
+
+public class Node implements Runnable{
+
+    @Override
+    public void run(){
+
+    }
 }
