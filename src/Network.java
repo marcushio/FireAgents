@@ -27,6 +27,12 @@ public class Network {
         return true;
     }
 
+    public void addEdge(Coordinate node1Coordinate, Coordinate node2Coordinate){
+        Node node1 = coordinateNodeMap.get(node1Coordinate);
+        Node node2 = coordinateNodeMap.get(node2Coordinate);
+        node1.addNeighbor(node2);
+        node2.addNeighbor(node1);
+    }
     //this is probably going to be the home of our threadpool cached is likely going to be our choice
 
 
