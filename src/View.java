@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +16,7 @@ import java.util.Observer;
  */
 public class View implements Observer {
     private HBox root;
-    private GridPane nodeMap;
+    private Canvas nodeMap;
     private ScrollPane logDisplay;
     private List<String> configuration;
 
@@ -25,7 +26,7 @@ public class View implements Observer {
      */
     public View(Stage primaryStage, List<String> configuration){
         root = new HBox();
-        nodeMap = new GridPane();
+        nodeMap = new Canvas();
         //setup nodeMap area - maybe just have it return a gridpane...
         initializeMap(configuration);
         logDisplay = new ScrollPane();
@@ -39,7 +40,6 @@ public class View implements Observer {
     public void update(Observable model, Object arg){
         //if instanceof Node change the node
 
-        //if instanceof agent change the object
     }
 
     /**
