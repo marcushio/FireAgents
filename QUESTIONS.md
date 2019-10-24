@@ -9,11 +9,14 @@ Choose and document!
 Does this mean our testers will have config files that specify
 more than one station?  
 
-Can we assume the config file specifieds a CONNECTED graph? 
+Can we assume the config file specifieds a CONNECTED graph?
 
     Yes but document it.
- 
- 
+
+
  How do we indicate concurrency in diagram?
 
  Little red triangles for all active objects
+
+ __Size of Graph__
+ what are the biggest coordinates we can expect. 
