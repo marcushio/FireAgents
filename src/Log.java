@@ -9,21 +9,19 @@ import java.util.List;
  * all our entries.
  */
 public class Log {
-    List<String> log;
+    List<LogEntry> log;
 
     public Log(){
-        this.log = new ArrayList<String>();
+        this.log = new ArrayList<LogEntry>();
     }
-
-    public Log(List<String> log){
+    public Log(List<LogEntry> log){
         this.log = log;
     }
-
     /**
      * Add an entry into our log
      * @param entry
      */
-    public void addEntry(String entry){
+    public void addEntry(LogEntry entry){
         this.log.add(entry);
     }
 
