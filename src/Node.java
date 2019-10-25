@@ -13,7 +13,7 @@ enum COLOR{RED, YELLOW, BLUE}
 public class Node extends Observable implements Runnable{
     private COLOR color;
     private List<Node> neighbors;
-    private BlockingQueue messageBuffer;
+    private BlockingQueue<LogEntry> messageBuffer;
     private Agent agent;
 
     //Constructor that sets initial conditions?
@@ -61,8 +61,11 @@ public class Node extends Observable implements Runnable{
      */
     @Override
     public void run(){
-        //change color
-        //spread message to neighbors if it has it.
+        //send text if ya got it.
+        if(!messageBuffer.isEmpty()){
+            LogEntry entryToSend = messageBuffer.remove();
+
+        }
     }
 
     /**
@@ -77,6 +80,9 @@ public class Node extends Observable implements Runnable{
         return false;
     }
 
+
+
+
     /**
      * this method is called by a neighbor if that neighbor catches fire.
      * @return true if the color is actually changed to yellow false if it was already yellow
@@ -87,8 +93,28 @@ public class Node extends Observable implements Runnable{
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
+    private boolean recieveLogEntry(LogEntry newEntry){
+        messageBuffer.add(newEntry);
+        return true;
+    }
+
+    /**
+     *
+     * @return
+     */
     private boolean sendLogEntry(){
-        //we have to discuss routing protocol 
+        //we have to discuss routing protocol for now just have a node send message to neighbors but maybe not from sending neighbor
+        try {
+            for (Node node : neighbors) {
+                node.recieveLogEntry(messageBuffer.take());
+            }
+        } catch (InterruptedException ex){
+            ex.printStackTrace();
+        }
         return true;
     }
 

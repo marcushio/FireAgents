@@ -7,6 +7,7 @@
 public class LogEntry {
     String id;
     String location;
+    //Node sender; might be useful so that nodes know not to send it back to it's sender
 
     /**
      *
