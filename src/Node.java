@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -45,10 +46,18 @@ public class Node extends Observable implements Runnable{
         return true;
     }
 
+    public int numNeighbors(){
+        return neighbors.size();
+    }
+
+    public List<Node> getNeighbors(){
+        return neighbors;
+    }
+
     /**
-     * Allows an agent to travel to it if it does not currently have an agent
+     * Allows an agent to travel to node if node does not currently have an agent
      */
-    public boolean acceptAgent(Agent agent){ //is this going to be an issue ??
+    public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
         if(!color.equals(COLOR.RED) || this.agent == null){
             this.agent = agent;
             return true;
@@ -81,14 +90,13 @@ public class Node extends Observable implements Runnable{
     }
 
 
-
-
     /**
      * this method is called by a neighbor if that neighbor catches fire.
      * @return true if the color is actually changed to yellow false if it was already yellow
      */
     private boolean setToYellow(){
         if(color.equals(COLOR.YELLOW)){ return false; }
+        else if(color.equals(COLOR.RED)) { return false; }
         else { color = COLOR.YELLOW; }
         return true;
     }
@@ -116,6 +124,11 @@ public class Node extends Observable implements Runnable{
             ex.printStackTrace();
         }
         return true;
+    }
+
+    public static void main(String[] args){
+        Random random = new Random();
+        System.out.println(random.nextInt(10));
     }
 
 }
