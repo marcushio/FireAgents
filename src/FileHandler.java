@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileHandler {
-    private List<String> nodeSpecs;
-    private List<String> edgeSpecs;
-    private String stationSpec;
-    private String fireSpec;
+    private List<String> nodeSpecs = new ArrayList<>();
+    private List<String> edgeSpecs = new ArrayList<>();;
+    private String stationSpec = "";
+    private String fireSpec = "";
     /**
      * Read all lines of file, adding all lines with more than just white-space
      * to a list and returning the list.

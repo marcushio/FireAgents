@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 enum COLOR{RED, YELLOW, BLUE}
 
 public class Node extends Observable implements Runnable{
-    COLOR color;
+    COLOR color = COLOR.BLUE;
     BlockingQueue messageBuffer;
 
     public boolean ignite(){

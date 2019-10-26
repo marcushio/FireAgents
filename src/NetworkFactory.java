@@ -8,8 +8,13 @@ import java.util.Scanner;
 public class NetworkFactory {
     Network network = new Network();
     FileHandler handler = new FileHandler();
+    String pathToConfigFile;
 
-    public Network build(String pathToConfigFile){
+    public NetworkFactory(String pathToConfigFile){
+        this.pathToConfigFile = pathToConfigFile;
+    }
+
+    public Network build(){
         handler.setSpecs(pathToConfigFile);
         setNodes(handler.getNodeSpecs());
         setStation(handler.getStationSpec());

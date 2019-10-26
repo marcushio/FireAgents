@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -6,7 +7,7 @@ import java.util.Map;
  * brief class description
  */
 public class Network {
-    private Map<Coordinate, Node> coordinateNodeMap;
+    private Map<Coordinate, Node> coordinateNodeMap = new HashMap<>();
     private Station station;
 
     public void put(Coordinate coordinate, Node node){
