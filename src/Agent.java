@@ -5,7 +5,7 @@ import java.util.Random;
  * @version: 10/25/2019
  *
  * An agent runs on it's own thread. Before any fire is discovered it randomly traverses the network looking for fire.
- * After this, it makes new agents in order to surround the fire and monitor it's spread. 
+ * After this, it makes new agents in order to surround the fire and monitor it's spread.
  */
 public class Agent implements Runnable{ //should these guys be observable? I dont think we need to...
 
