@@ -35,4 +35,13 @@ public class Coordinate {
         if (x>y) return (x*x)+x+y;
         else return (y*y)+x;
     }
+
+    /**
+     *
+     */
+    @Override
+    public String toString(){
+        return "(" + x + "," + y + ")";
+    }
+
 }

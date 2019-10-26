@@ -13,6 +13,7 @@ enum COLOR{RED, YELLOW, BLUE}
 
 public class Node extends Observable implements Runnable{
     private COLOR color;
+    private Coordinate location;
     private List<Node> neighbors;
     private BlockingQueue<LogEntry> messageBuffer;
     private Agent agent;
@@ -52,6 +53,19 @@ public class Node extends Observable implements Runnable{
 
     public List<Node> getNeighbors(){
         return neighbors;
+    }
+
+    public COLOR getColor(){
+        return color;
+    }
+
+    public Coordinate getCoordinate(){
+        return location;
+    }
+
+    public boolean hasAgent(){
+        if(this.agent != null) { return true;}
+        else { return false; }
     }
 
     /**
@@ -102,12 +116,12 @@ public class Node extends Observable implements Runnable{
     }
 
     /**
-     *
+     * Receives a log entry and if it gets in return true.
      * @return
      */
-    private boolean recieveLogEntry(LogEntry newEntry){
-        messageBuffer.add(newEntry);
-        return true;
+    public boolean receiveLogEntry(LogEntry newEntry){
+        if( messageBuffer.add(newEntry) ) { return true; }
+        return false;
     }
 
     /**
@@ -118,7 +132,7 @@ public class Node extends Observable implements Runnable{
         //we have to discuss routing protocol for now just have a node send message to neighbors but maybe not from sending neighbor
         try {
             for (Node node : neighbors) {
-                node.recieveLogEntry(messageBuffer.take());
+                node.receiveLogEntry(messageBuffer.take());
             }
         } catch (InterruptedException ex){
             ex.printStackTrace();
