@@ -1,6 +1,10 @@
+import jdk.nashorn.internal.ir.Block;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -14,11 +18,10 @@ enum COLOR{RED, YELLOW, BLUE}
 public class Node extends Observable implements Runnable{
     private COLOR color = COLOR.BLUE;
     private Coordinate location;
-    private List<Node> neighbors;
-    private BlockingQueue<LogEntry> messageBuffer;
+    private List<Node> neighbors = new ArrayList<Node>();
+    private BlockingQueue<LogEntry> messageBuffer = new ArrayBlockingQueue<LogEntry>(1000);
     private Agent agent;
 
-    //Constructor that sets initial conditions?
 
     /**
      * Called when this node is on fire. It has to be called from another node because fire travels along communication lines
@@ -87,7 +90,6 @@ public class Node extends Observable implements Runnable{
         //send text if ya got it.
         if(!messageBuffer.isEmpty()){
             LogEntry entryToSend = messageBuffer.remove();
-
         }
     }
 
