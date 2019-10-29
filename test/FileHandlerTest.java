@@ -5,7 +5,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class FileHandlerTest {
-
+/*
     @Test
     public void getContentsAsString() {
         FileHandler handler = new FileHandler();
@@ -42,5 +42,5 @@ public class FileHandlerTest {
                         "fire 8 1\n", lines);
         assertEquals(26, lineList.size());
     }
-
+*/
 }

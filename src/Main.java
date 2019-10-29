@@ -3,6 +3,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+
 public class Main extends Application {
 
     /**
@@ -16,14 +17,14 @@ public class Main extends Application {
         main.run(args);
     }
 
-    @Override
+    //@Override
     public void start(Stage primaryStage) {
 
     }
 
     private void run(String[] args){
         NetworkFactory factory = new NetworkFactory(args[0]);
-
-        launch(args);
+        Network network = factory.build();
+       // launch(args);
     }
 }

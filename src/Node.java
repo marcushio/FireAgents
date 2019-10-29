@@ -12,7 +12,7 @@ import java.util.concurrent.BlockingQueue;
 enum COLOR{RED, YELLOW, BLUE}
 
 public class Node extends Observable implements Runnable{
-    private COLOR color;
+    private COLOR color = COLOR.BLUE;
     private Coordinate location;
     private List<Node> neighbors;
     private BlockingQueue<LogEntry> messageBuffer;
@@ -144,5 +144,4 @@ public class Node extends Observable implements Runnable{
         Random random = new Random();
         System.out.println(random.nextInt(10));
     }
-
 }
