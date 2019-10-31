@@ -80,8 +80,6 @@ public class Node extends Observable implements Runnable{
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
         if(!color.equals(COLOR.RED) || this.agent == null){
             this.agent = agent;
-            //deleteObservers();
-            addObserver(agent);
             return true;
         }
         return false;
