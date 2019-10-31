@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
+//TODO create code to change colors and also to stroke f
 /**
  * @author: Marcus Trujillo
  * @version: 10/22/19
@@ -25,6 +25,7 @@ public class View{
     private int X_FRONTIER = 1000;
     private int Y_FRONTIER = 1000;
     private int NODE_SIZE = 20;
+    private double SCALE_FACTOR = NODE_SIZE*1.5;
     private HBox root;
     private Canvas nodeMap;
     private TextArea log;
@@ -63,17 +64,21 @@ public class View{
         for(Coordinate coordinate : coordinates){
             GraphicsContext gc = nodeMap.getGraphicsContext2D();
             gc.setFill(Paint.valueOf("Blue"));
-            gc.fillOval(coordinate.getX()*NODE_SIZE,coordinate.getY()*NODE_SIZE, NODE_SIZE, NODE_SIZE);
+            gc.fillOval(coordinate.getX()*SCALE_FACTOR,coordinate.getY()*SCALE_FACTOR, NODE_SIZE, NODE_SIZE);
             drawLinesToNeighbors(gc, coordinate, coordinateNodeMap.get(coordinate).getNeighbors());
         }
 
     }
 
+    private double scaleLineCoordinate(double coordinate){
+        return (coordinate * SCALE_FACTOR)+ NODE_SIZE/2;
+    }
     private void drawLinesToNeighbors(GraphicsContext gc, Coordinate startCoordinate, List<Node> neighbors) {
         for(Node neighbor : neighbors){
             Coordinate neighborCoordinate = neighbor.getCoordinate();
             gc.setStroke(Paint.valueOf("black"));
-            gc.strokeLine(startCoordinate.getX(),startCoordinate.getY(), neighborCoordinate.getX(), neighborCoordinate.getY());
+            gc.setLineWidth(NODE_SIZE/5);
+            gc.strokeLine(scaleLineCoordinate(startCoordinate.getX()),scaleLineCoordinate(startCoordinate.getY()), scaleLineCoordinate(neighborCoordinate.getX()), scaleLineCoordinate(neighborCoordinate.getY()));
         }
     }
 
