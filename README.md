@@ -22,6 +22,8 @@ For parsing the configuration file, we decided to...
 Explain any special algorithm, data structure, or logic used that was crucial to
 solving the problem. Also explain any design choice you feel is important.
 
+Agents had unique ids by ... 
+
 ### Versions
 
 All version submitted and their features.

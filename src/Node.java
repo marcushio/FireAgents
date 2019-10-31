@@ -16,6 +16,7 @@ import java.util.concurrent.BlockingQueue;
 enum COLOR{RED, YELLOW, BLUE}
 
 public class Node extends Observable implements Runnable{
+    //Do we need locks and conditions?
     private COLOR color = COLOR.BLUE;
     private Coordinate location;
     private List<Node> neighbors = new ArrayList<Node>();
@@ -88,7 +89,7 @@ public class Node extends Observable implements Runnable{
     @Override
     public void run(){
         //send text if ya got it. There's no reason for these things to ever finish... so let's just have them loop til
-        //the program closes
+        //the program closes. I mean that's really all this thing actively does... everything else is changed from the outside
         while(true) {
             if (!messageBuffer.isEmpty()) {
                 LogEntry entryToSend = messageBuffer.remove();
