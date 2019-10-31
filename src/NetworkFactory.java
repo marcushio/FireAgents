@@ -17,6 +17,7 @@ public class NetworkFactory {
     public Network build(){
         handler.setSpecs(pathToConfigFile);
         setNodes(handler.getNodeSpecs());
+        setEdges(handler.getEdgeSpecs());
         setStation(handler.getStationSpec());
         setFire(handler.getFireSpec());
         return network;
@@ -44,6 +45,7 @@ public class NetworkFactory {
             scanner.next();
             Coordinate coordinate = new Coordinate(scanner.nextInt(), scanner.nextInt());
             Node node = new Node();
+            node.setCoordinate(coordinate);
             network.put(coordinate,node);
         }
     }

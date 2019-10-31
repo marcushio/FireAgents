@@ -65,6 +65,10 @@ public class Node extends Observable implements Runnable{
         return location;
     }
 
+    public void setCoordinate(Coordinate coordinate){
+        this.location = coordinate;
+    }
+
     public boolean hasAgent(){
         if(this.agent != null) { return true;}
         else { return false; }
