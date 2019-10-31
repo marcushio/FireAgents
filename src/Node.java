@@ -43,9 +43,7 @@ public class Node extends Observable implements Runnable{
      * @return true if a node was added, else false
      */
     public boolean addNeighbor(Node neighbor){
-        for(Node node : neighbors){
-            if(neighbors.contains(node)){ return false; }
-        }
+        if(neighbors.contains(neighbor)){ return false; }
         neighbors.add(neighbor);
         return true;
     }
