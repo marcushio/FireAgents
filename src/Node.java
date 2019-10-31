@@ -13,7 +13,7 @@ import java.util.concurrent.BlockingQueue;
  * @version:
  * Represents the node sensors in the network that can change color.
  */
-enum COLOR{RED, YELLOW, BLUE}
+enum COLOR{BLUE, YELLOW, RED}
 
 public class Node extends Observable implements Runnable{
     //Do we need locks and conditions?
