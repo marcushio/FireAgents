@@ -47,6 +47,7 @@ public class NetworkFactory {
             Node node = new Node();
             node.setCoordinate(coordinate);
             network.put(coordinate,node);
+
         }
     }
     private void setEdges(List<String> edgeSpecs){

@@ -17,4 +17,10 @@ public class Station {
     public void setCoordinate(Coordinate coordinate){
         this.coordinate = coordinate;
     }
+
+    /**
+     * get this station's location
+     */
+    public Coordinate getCoordinate(){ return coordinate; }
+
 }

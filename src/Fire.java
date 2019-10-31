@@ -20,9 +20,10 @@ public class Fire implements Runnable{
             Node fireTarget = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
             if(fireTarget.ignite()){ //if we light a neighbor on fire
                 host = fireTarget;   //the fire now lives on the thing we set fire to
+                System.out.println("I'm the fire I just arrived at " + host.getCoordinate().toString());
             }
             try {
-                Thread.sleep(3000); //spread fire every 3 seconds
+                Thread.sleep(500); //spread fire every however long
             } catch (InterruptedException ex){
                 ex.printStackTrace();
             }

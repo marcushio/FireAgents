@@ -2,6 +2,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Main extends Application {
@@ -17,11 +19,13 @@ public class Main extends Application {
         launch(args);
     }
 
-    //@Override
+    @Override
     public void start(Stage primaryStage) {
         NetworkFactory factory = new NetworkFactory(getParameters().getUnnamed().get(0));
         network = factory.build();
-        View view = new View(primaryStage,network);
+        //View view = new View(primaryStage,network);
+        network.startNetwork();
+        network.startFire();
     }
 
 }

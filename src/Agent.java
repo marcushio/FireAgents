@@ -67,7 +67,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         Node newHost = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
         if (newHost.acceptAgent(this)) {
             this.host = newHost;
-
+            System.out.println("Stepped to " + host.getCoordinate().toString());
             return true;
         }
         return false;
