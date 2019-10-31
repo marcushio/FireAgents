@@ -1,5 +1,15 @@
 //import jdk.nashorn.internal.ir.Block;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -13,26 +23,34 @@ import java.util.concurrent.BlockingQueue;
  * @version:
  * Represents the node sensors in the network that can change color.
  */
-enum COLOR{BLUE, YELLOW, RED}
 
 public class Node extends Observable implements Runnable{
     //Do we need locks and conditions?
-    private COLOR color = COLOR.BLUE;
+
+    private ObjectProperty<Color> color = new ColorPicker(Color.BLUE).valueProperty();
+    private ObjectProperty<Color> strokeColor = new ColorPicker(Color.BLUE).valueProperty();
     private Coordinate location;
     private List<Node> neighbors = new ArrayList<Node>();
     private BlockingQueue<LogEntry> messageBuffer = new ArrayBlockingQueue<LogEntry>(1000);
     private Agent agent;
 
-
+    /**
+     * Return color integer property of this node so it may be bound to a property in the gui
+     * @return This node's color integer property which will be 0,1, or 2 depending on if the node is
+     * blue, yellow, or red respectively.
+     */
+    public ObjectProperty<Color> getColorIntegerProperty(){
+        return color;
+    }
     /**
      * Called when this node is on fire. It has to be called from another node because fire travels along communication lines
      * @return
      */
     public boolean ignite(){
-        if(color.equals(COLOR.RED)) return false;
+        if(color.get().equals(Color.RED)) return false;
         else{
             sendDeathMessage();
-            color = COLOR.RED;
+            color.set(Color.RED);
             agent = null;
            // System.out.println("I am node at " + location.toString() + "and I caught fire.");
         }
@@ -58,7 +76,7 @@ public class Node extends Observable implements Runnable{
         return neighbors;
     }
 
-    public COLOR getColor(){
+    public ObjectProperty<Color> getColor(){
         return color;
     }
 
@@ -79,7 +97,7 @@ public class Node extends Observable implements Runnable{
      * Allows an agent to travel to node if node does not currently have an agent
      */
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
-        if(!color.equals(COLOR.RED) || this.agent == null){
+        if(!color.get().equals(Color.RED) || this.agent == null){
             this.agent = agent;
             return true;
         }
@@ -118,14 +136,12 @@ public class Node extends Observable implements Runnable{
      * @return true if the color is actually changed to yellow false if it was already yellow
      */
     private boolean setToYellow(){
-        if(color.equals(COLOR.YELLOW)){ return false; }
-        else if(color.equals(COLOR.RED)) { return false; }
-        else {
-            color = COLOR.YELLOW;
+        if(color.get().equals(Color.YELLOW)){ return false; }
+        if(color.get().equals(Color.RED)) { return false; }
+            color.set(Color.YELLOW);
             if(this.agent != null){
                 LogEntry newEntry  = agent.createLogEntry();
                 sendLogEntry(newEntry);
-            }
         }
         return true;
     }

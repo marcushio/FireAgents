@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         NetworkFactory factory = new NetworkFactory(getParameters().getUnnamed().get(0));
         network = factory.build();
-        //View view = new View(primaryStage,network);
+        View view = new View(primaryStage,network);
         network.startNetwork();
         network.startFire();
     }
