@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
@@ -40,9 +41,9 @@ public class Agent implements Runnable{ //should these guys be observable? I don
                 step();
                 try{ Thread.sleep(200); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
             }
-            if (host.getColor() == COLOR.YELLOW) {
+            if (host.getColor().equals(Color.YELLOW)) {
                 cloneToNeighbors();
-            } else if(host.getColor() == COLOR.RED){
+            } else if(host.getColor().equals(Color.RED)){
                 alive = false;
             }
         }
@@ -71,7 +72,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             Node oldHost = host;
             oldHost.setNullAgent();
             host = newHost;
-            if(host.getColor() == COLOR.YELLOW){ hasFoundFire = true; }// System.out.println("I found fire ");}
+            if(host.getColor().equals(Color.YELLOW)){ hasFoundFire = true; }// System.out.println("I found fire ");}
             //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
             return true;
         }

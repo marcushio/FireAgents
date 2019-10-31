@@ -1,19 +1,18 @@
-import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextAreaBuilder;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.transform.Translate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
-
+//TODO create code to change colors and also to stroke f
 /**
  * @author: Marcus Trujillo
  * @version: 10/22/19
@@ -24,12 +23,16 @@ import java.util.List;
 public class View{
     private int X_FRONTIER = 1000;
     private int Y_FRONTIER = 1000;
-    private int NODE_SIZE = 20;
+    private int NODE_RADIUS = 10;
+    private double SCALE_FACTOR = NODE_RADIUS *3;
     private HBox root;
-    private Canvas nodeMap;
+    private Pane modelDisplay = new Pane();
+    private ScrollPane modelScroll = new ScrollPane(modelDisplay);
     private TextArea log;
     private ScrollPane logDisplay;
     private Network network;
+    private List<Circle> nodeViews = new ArrayList<>();
+    private Group networkShapes = new Group();
     /**
      * Constructor
      * @param primaryStage
@@ -46,34 +49,42 @@ public class View{
     private BorderPane makeRoot(){
         BorderPane root = new BorderPane();
         root.setRight(makeLog());
-        root.setCenter(makeNodeMap());
+        root.setCenter(modelScroll);
         return root;
     }
-    private ScrollPane makeNodeMap(){
-        nodeMap = new Canvas();
-        nodeMap.setHeight(X_FRONTIER);
-        nodeMap.setWidth(Y_FRONTIER);
-        ScrollPane mapContainer = new ScrollPane(nodeMap);
-        return mapContainer;
-    }
+
     private void makeNodes(){
         Map<Coordinate,Node> coordinateNodeMap = network.getCoordinateNodeMap();
         Set<Coordinate> coordinates = coordinateNodeMap.keySet();
         int i = 0; int j = 0;
         for(Coordinate coordinate : coordinates){
-            GraphicsContext gc = nodeMap.getGraphicsContext2D();
-            gc.setFill(Paint.valueOf("Blue"));
-            gc.fillOval(coordinate.getX()*NODE_SIZE,coordinate.getY()*NODE_SIZE, NODE_SIZE, NODE_SIZE);
-            drawLinesToNeighbors(gc, coordinate, coordinateNodeMap.get(coordinate).getNeighbors());
+            Node ithNode = coordinateNodeMap.get(coordinate);
+            Circle newCircle = new Circle(coordinate.getX()*SCALE_FACTOR,coordinate.getY()*SCALE_FACTOR, NODE_RADIUS, Paint.valueOf("blue"));
+            newCircle.fillProperty().bind(ithNode.getColor());
+            newCircle.strokeProperty().bind(ithNode.getColor());
+            nodeViews.add(newCircle);
+            networkShapes.getChildren().add(newCircle);
+            addOutgoingLines(ithNode);
         }
+        Translate translate = new Translate();
+        translate.setY(NODE_RADIUS+ networkShapes.getTranslateY());
+        networkShapes.getTransforms().add(translate);
+        modelDisplay.getChildren().add(networkShapes);
 
     }
 
-    private void drawLinesToNeighbors(GraphicsContext gc, Coordinate startCoordinate, List<Node> neighbors) {
-        for(Node neighbor : neighbors){
+    private double scaleLineCoordinate(double coordinate){
+        return (coordinate * SCALE_FACTOR);
+    }
+    private void addOutgoingLines(Node node) {
+        for(Node neighbor : node.getNeighbors()){
             Coordinate neighborCoordinate = neighbor.getCoordinate();
-            gc.setStroke(Paint.valueOf("black"));
-            gc.strokeLine(startCoordinate.getX(),startCoordinate.getY(), neighborCoordinate.getX(), neighborCoordinate.getY());
+            networkShapes.getChildren().add(new Line(
+                    scaleLineCoordinate(node.getCoordinate().getX()),
+                    scaleLineCoordinate(node.getCoordinate().getY()),
+                    scaleLineCoordinate(neighborCoordinate.getX()),
+                    scaleLineCoordinate(neighborCoordinate.getY()))
+            );
         }
     }
 
