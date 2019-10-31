@@ -60,8 +60,9 @@ public class View{
         for(Coordinate coordinate : coordinates){
             Node ithNode = coordinateNodeMap.get(coordinate);
             Circle newCircle = new Circle(coordinate.getX()*SCALE_FACTOR,coordinate.getY()*SCALE_FACTOR, NODE_RADIUS, Paint.valueOf("blue"));
+            newCircle.setStrokeWidth(NODE_RADIUS/2);
             newCircle.fillProperty().bind(ithNode.getColor());
-            newCircle.strokeProperty().bind(ithNode.getColor());
+            newCircle.strokeProperty().bind(ithNode.getStrokeColor());
             nodeViews.add(newCircle);
             networkShapes.getChildren().add(newCircle);
             addOutgoingLines(ithNode);
