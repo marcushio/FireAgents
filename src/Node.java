@@ -34,7 +34,7 @@ public class Node extends Observable implements Runnable{
             sendDeathMessage();
             color = COLOR.RED;
             agent = null;
-            System.out.println("I am at " + location.toString() + "and I caught fire.");
+           // System.out.println("I am node at " + location.toString() + "and I caught fire.");
         }
         return true;
     }
