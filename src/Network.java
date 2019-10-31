@@ -34,6 +34,14 @@ public class Network {
         node1.addNeighbor(node2);
         node2.addNeighbor(node1);
     }
+
+    public Map<Coordinate, Node> getCoordinateNodeMap() {
+        return coordinateNodeMap;
+    }
+
+    public Station getStation() {
+        return station;
+    }
     //this is probably going to be the home of our threadpool cached is likely going to be our choice
 
 

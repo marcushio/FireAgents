@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class Main extends Application {
-
+    Network network;
     /**
      * Entry point to this javafx application.
      *
@@ -14,17 +14,14 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         Main main = new Main();
-        main.run(args);
+        launch(args);
     }
 
     //@Override
     public void start(Stage primaryStage) {
-
+        NetworkFactory factory = new NetworkFactory(getParameters().getUnnamed().get(0));
+        network = factory.build();
+        View view = new View(primaryStage,network);
     }
 
-    private void run(String[] args){
-        NetworkFactory factory = new NetworkFactory(args[0]);
-        Network network = factory.build();
-       // launch(args);
-    }
 }
