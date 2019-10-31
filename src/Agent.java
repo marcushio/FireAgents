@@ -1,3 +1,5 @@
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Random;
  * An agent runs on it's own thread. Before any fire is discovered it randomly traverses the network looking for fire.
  * After this, it makes new agents in order to surround the fire and monitor it's spread.
  */
-public class Agent implements Runnable{ //should these guys be observable? I dont think we need to...
+public class Agent implements Runnable, Observer { //should these guys be observable? I dont think we need to...
 
     private Coordinate location;
     private String id;
@@ -27,11 +29,19 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         if(host.getColor() == COLOR.YELLOW){
             cloneToNeighbors();
         }
-            //if the node that we're on catches fire the agent dies....
-            //when the node we're on catches fire then we can go ahead and
-            //we haven't found fire yet so we're just cloning
-            //clone if near fire
+
     }
+
+    /**
+     * Agent updates if it's host has changed
+     * @param o
+     * @param arg
+     */
+    @Override
+    public void update(Observable o, Object arg) { //I don't think i actually need any of the java
+
+    }
+
 
     public boolean setLocation(Coordinate newLocation){
         this.location = newLocation;
@@ -53,12 +63,13 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         Node newHost = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
         if (newHost.acceptAgent(this)) {
             this.host = newHost;
+
             return true;
         }
         return false;
     }
 
-    private LogEntry createLogEntry(){
+    public LogEntry createLogEntry(){
         return new LogEntry(this.id, host.getCoordinate().toString());
     }
 
@@ -74,4 +85,6 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             }
         }
     }
+
+
 }

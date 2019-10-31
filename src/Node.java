@@ -77,6 +77,8 @@ public class Node extends Observable implements Runnable{
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
         if(!color.equals(COLOR.RED) || this.agent == null){
             this.agent = agent;
+            //deleteObservers();
+            addObserver(agent);
             return true;
         }
         return false;
@@ -87,9 +89,12 @@ public class Node extends Observable implements Runnable{
      */
     @Override
     public void run(){
-        //send text if ya got it.
-        if(!messageBuffer.isEmpty()){
-            LogEntry entryToSend = messageBuffer.remove();
+        //send text if ya got it. There's no reason for these things to ever finish... so let's just have them loop til
+        //the program closes
+        while(true) {
+            if (!messageBuffer.isEmpty()) {
+                LogEntry entryToSend = messageBuffer.remove();
+            }
         }
     }
 
@@ -113,7 +118,13 @@ public class Node extends Observable implements Runnable{
     private boolean setToYellow(){
         if(color.equals(COLOR.YELLOW)){ return false; }
         else if(color.equals(COLOR.RED)) { return false; }
-        else { color = COLOR.YELLOW; }
+        else {
+            color = COLOR.YELLOW;
+            if(this.agent != null){
+                LogEntry newEntry  = agent.createLogEntry();
+                sendLogEntry(newEntry);
+            }
+        }
         return true;
     }
 
@@ -139,6 +150,17 @@ public class Node extends Observable implements Runnable{
         } catch (InterruptedException ex){
             ex.printStackTrace();
         }
+        return true;
+    }
+
+    /**
+     * for sending a specific log entry that this particular node created rather than passing along a message it recieved
+     * @param
+     */
+    private boolean sendLogEntry(LogEntry newEntry){ // I feel like there needs to be more to this.
+            for (Node node : neighbors) {
+                node.receiveLogEntry(newEntry);
+            }
         return true;
     }
 
