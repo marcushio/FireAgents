@@ -70,6 +70,8 @@ public class Node extends Observable implements Runnable{
         this.location = coordinate;
     }
 
+    public boolean setNullAgent(){ agent = null; return true; }
+
     public boolean hasAgent(){
         if(this.agent != null) { return true;}
         else { return false; }
@@ -79,7 +81,7 @@ public class Node extends Observable implements Runnable{
      * Allows an agent to travel to node if node does not currently have an agent
      */
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
-        if(!color.equals(COLOR.RED) || this.agent == null){
+        if(!color.equals(COLOR.RED) && this.agent == null){
             this.agent = agent;
             return true;
         }
@@ -124,7 +126,6 @@ public class Node extends Observable implements Runnable{
             color = COLOR.YELLOW;
             if(this.agent != null){
                 LogEntry newEntry  = agent.createLogEntry();
-                sendLogEntry(newEntry);
             }
         }
         return true;

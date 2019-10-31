@@ -19,13 +19,14 @@ public class Agent implements Runnable{ //should these guys be observable? I don
 
     public Agent(Node newHost){
         this.host = newHost;
-        this.name = "AA";
+        this.name = "0 1";
         this.id = LocalDateTime.now() + " " + this.name + " " + newHost.getCoordinate().toString();
         hasFoundFire = false;
     }
 
     public Agent(Agent parentAgent, Node newHost){
         hasFoundFire = parentAgent.hasFoundFire();
+       // parentAgent.name.charAt()
         id = LocalDateTime.now() + " " + parentAgent.name + " " + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
         //make a new name based on the location this was cloned from and the time
 
@@ -67,6 +68,8 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         Random random = new Random();
         Node newHost = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
         if (newHost.acceptAgent(this)) {
+            Node oldHost = host;
+            oldHost.setNullAgent();
             host = newHost;
             if(host.getColor() == COLOR.YELLOW){ hasFoundFire = true; }// System.out.println("I found fire ");}
             //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
@@ -76,7 +79,9 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     }
 
     public LogEntry createLogEntry(){
-        return new LogEntry(this.id, host.getCoordinate().toString());
+        LogEntry newEntry =  new LogEntry(this.id, host.getCoordinate().toString());
+        newEntry.addVisited(host.getCoordinate());
+        return newEntry;
     }
 
     /**
@@ -84,10 +89,8 @@ public class Agent implements Runnable{ //should these guys be observable? I don
      */
     private synchronized void cloneToNeighbors(){ //this might have to
         for(Node node : host.getNeighbors() ){
-            if( !node.hasAgent() ){
-                Agent newAgent = new Agent(this, node);
-                node.acceptAgent(newAgent);
-               // System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
+            if( node.acceptAgent(new Agent(this, node)) ){
+                System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
                 host.receiveLogEntry( createLogEntry() ); //createLogEntry returns boolean do we have this do something if that fails?
             }
         }
