@@ -1,3 +1,6 @@
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,20 +12,18 @@ import java.util.List;
  * all our entries.
  */
 public class Log {
-    List<LogEntry> log;
+    ListProperty<String> entries = new SimpleListProperty<>();
 
-    public Log(){
-        this.log = new ArrayList<LogEntry>();
-    }
-    public Log(List<LogEntry> log){
-        this.log = log;
-    }
     /**
      * Add an entry into our log
      * @param entry
      */
-    public void addEntry(LogEntry entry){
-        this.log.add(entry);
+    public void addEntry(String entry){
+        entries.add(entry);
+    }
+
+    public ListProperty<String> getEntriesProperty(){
+        return entries;
     }
 
 }

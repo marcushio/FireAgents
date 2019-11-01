@@ -1,3 +1,5 @@
+import javafx.beans.property.ListProperty;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -77,6 +79,10 @@ public class Network {
             return true;
         }
         return false;
+    }
+
+    public ListProperty<String> getEntriesProperty(){
+        return station.getEntriesProperty();
     }
 
 

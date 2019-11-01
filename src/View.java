@@ -1,3 +1,5 @@
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -32,6 +34,7 @@ public class View{
     private ScrollPane logDisplay;
     private Network network;
     private List<Circle> nodeViews = new ArrayList<>();
+    private ListProperty<String> logEntries = new SimpleListProperty<String>();
     private Group networkShapes = new Group();
     /**
      * Constructor
@@ -44,6 +47,10 @@ public class View{
         primaryStage.setMaximized(true);
         primaryStage.show();
         makeNodes();
+        logEntries.bind(network.getEntriesProperty());
+        logEntries.addListener((observable, oldValue, newValue) -> {
+            log.appendText((newValue.remove(newValue.size()-1)));
+        });
     }
 
     private BorderPane makeRoot(){

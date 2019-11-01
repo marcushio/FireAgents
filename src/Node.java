@@ -51,6 +51,7 @@ public class Node extends Observable implements Runnable{
         else{
             sendDeathMessage();
             color.set(Color.RED);
+            strokeColor.set(Color.RED);
             agent = null;
            // System.out.println("I am node at " + location.toString() + "and I caught fire.");
         }
@@ -140,6 +141,7 @@ public class Node extends Observable implements Runnable{
         if(color.get().equals(Color.YELLOW)){ return false; }
         if(color.get().equals(Color.RED)) { return false; }
             color.set(Color.YELLOW);
+            strokeColor.set(Color.YELLOW);
             if(this.agent != null){
                 LogEntry newEntry  = agent.createLogEntry();
                 sendLogEntry(newEntry);
