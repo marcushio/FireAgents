@@ -23,7 +23,7 @@ public class Fire implements Runnable{
                // System.out.println("I'm the fire I just arrived at " + host.getCoordinate().toString());
             }
             try {
-                Thread.sleep(1000); //spread fire every however long
+                Thread.sleep(5000); //spread fire every however long
             } catch (InterruptedException ex){
                 ex.printStackTrace();
             }
