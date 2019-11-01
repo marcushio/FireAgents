@@ -38,7 +38,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         while(alive) {
             while (!hasFoundFire) {
                 step();
-                try{ Thread.sleep(200); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
+                try{ Thread.sleep(1000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
             }
             if (host.getColor().equals(Color.YELLOW)) {
                 cloneToNeighbors();
