@@ -126,6 +126,13 @@ public class Node extends Observable implements Runnable{
         }
     }
 
+    public List<Node> getYellowNeighbors() {
+        List<Node> yellowNodes = new ArrayList<>();
+        for (Node node : neighbors) {
+            if (node.getColor().get().equals(Color.YELLOW)) yellowNodes.add(node);
+        }
+        return yellowNodes;
+    }
     /**
      * The last message a node sends off when it dies.
      * @return

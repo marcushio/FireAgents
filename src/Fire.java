@@ -1,3 +1,7 @@
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -6,27 +10,35 @@ import java.util.Random;
  * brief class description
  */
 public class Fire implements Runnable{
-    private Node host;
+    private List<Node> hosts = new ArrayList<>();
 
     public Fire(Node host){
-        this.host = host;
-        host.ignite(); //this might be redundant cuz I'm not sure if you've set fire in the initial setup of the network 
+        hosts.add(host);
     }
 
     @Override
     public void run(){
         Random random = new Random();
         while(true){ //run while the program is open
-            Node fireTarget = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
-            if(fireTarget.ignite()){ //if we light a neighbor on fire
-                host = fireTarget;   //the fire now lives on the thing we set fire to
-               // System.out.println("I'm the fire I just arrived at " + host.getCoordinate().toString());
+            Node fireSource = null;
+            List<Node> yellowNeighbors = null;
+            Node fireTarget = null;
+            while (fireTarget == null) {
+                fireSource = hosts.get(random.nextInt(hosts.size()));
+                yellowNeighbors = fireSource.getYellowNeighbors();
+                if(yellowNeighbors.size()>0) fireTarget = yellowNeighbors.get(0);
             }
+
             try {
-                Thread.sleep(1000); //spread fire every however long
+                Thread.sleep(2500); //spread fire every however long
             } catch (InterruptedException ex){
                 ex.printStackTrace();
             }
+            if(fireTarget.ignite()){ //if we light a neighbor on fire
+                hosts.add(fireTarget);   //the fire now lives on the thing we set fire to
+               // System.out.println("I'm the fire I just arrived at " + host.getCoordinate().toString());
+            }
+
         }
     }
 }

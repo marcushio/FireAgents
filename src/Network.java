@@ -68,8 +68,8 @@ public class Network {
         }
         Node stationNode = coordinateNodeMap.get( station.getCoordinate() ); //get node at station coords
         Agent firstAgent = new Agent(stationNode); //make our first agent
-        stationNode.acceptAgent(firstAgent);  //place it on the station node
-        service.execute(firstAgent); //execute the Agent's run()
+        //stationNode.acceptAgent(firstAgent);  //place it on the station node
+        //service.execute(firstAgent); //execute the Agent's run()
         return true; //this is not currently informative because it never returns false
     }
 
