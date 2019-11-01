@@ -105,7 +105,7 @@ public class Node extends Observable implements Runnable{
      */
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
         strokeColor.set(Color.MEDIUMPURPLE);
-        if(!color.get().equals(Color.RED) || this.agent == null){
+        if(!color.get().equals(Color.RED) && this.agent == null){
             this.agent = agent;
             return true;
         }
@@ -119,7 +119,7 @@ public class Node extends Observable implements Runnable{
     public void run(){
         //send text if ya got it. There's no reason for these things to ever finish... so let's just have them loop til
         //the program closes. I mean that's really all this thing actively does... everything else is changed from the outside
-        while(true) {
+        while(!color.get().equals(Color.RED)) {
             if (!messageBuffer.isEmpty()) {
                 LogEntry entryToSend = messageBuffer.remove();
             }
