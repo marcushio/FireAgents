@@ -1,3 +1,7 @@
+import java.util.AbstractSet;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author: Marcus Trujillo
  * @version: 10/21/19
@@ -7,6 +11,7 @@
 public class LogEntry {
     String id;
     String location;
+    Set<Coordinate> placesVisited = new HashSet<Coordinate>();
     //Node sender; might be useful so that nodes know not to send it back to it's sender
 
     /**
@@ -22,5 +27,10 @@ public class LogEntry {
     @Override
     public String toString(){
         return "Agent ID: " + id + "\nAgent Location: " + location + "\n" ;
+    }
+
+    public boolean addVisited(Coordinate newCoordinate){
+        if(placesVisited.add(newCoordinate)){return true;}
+        return false;
     }
 }
