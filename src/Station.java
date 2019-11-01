@@ -1,4 +1,8 @@
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class Station {
     private Log log = new Log();
@@ -25,7 +29,7 @@ public class Station {
      */
     public Coordinate getCoordinate(){ return coordinate; }
 
-    public ListProperty<String> getEntriesProperty(){
+    public StringProperty getEntriesProperty(){
         return log.getEntriesProperty();
     }
 }

@@ -1,6 +1,9 @@
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -35,6 +38,7 @@ public class Network {
     public boolean setStation(Station station){
         if (this.station!=null) return false;
         this.station = station;
+        station.addToLog(new LogEntry("FIRE FIRE", "BIATCH"));
         return true;
     }
 
@@ -81,7 +85,7 @@ public class Network {
         return false;
     }
 
-    public ListProperty<String> getEntriesProperty(){
+    public StringProperty getEntriesProperty(){
         return station.getEntriesProperty();
     }
 
