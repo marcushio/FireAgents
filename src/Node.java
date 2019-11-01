@@ -88,7 +88,11 @@ public class Node extends Observable implements Runnable{
         this.location = coordinate;
     }
 
-    public boolean setNullAgent(){ agent = null; return true; }
+    public boolean setNullAgent(){
+        agent = null;
+        strokeColor.set(color.getValue());
+        return true;
+    }
 
     public boolean hasAgent(){
         if(this.agent != null) { return true;}
