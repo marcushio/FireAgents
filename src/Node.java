@@ -51,6 +51,7 @@ public class Node extends Observable implements Runnable{
         else{
             sendDeathMessage();
             color.set(Color.RED);
+            strokeColor.set(Color.RED);
             agent = null;
            // System.out.println("I am node at " + location.toString() + "and I caught fire.");
         }
@@ -103,7 +104,7 @@ public class Node extends Observable implements Runnable{
      * Allows an agent to travel to node if node does not currently have an agent
      */
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
-        strokeColor.set(Color.GOLD);
+        strokeColor.set(Color.MEDIUMPURPLE);
         if(!color.get().equals(Color.RED) || this.agent == null){
             this.agent = agent;
             return true;
@@ -146,6 +147,7 @@ public class Node extends Observable implements Runnable{
         if(color.get().equals(Color.YELLOW)){ return false; }
         if(color.get().equals(Color.RED)) { return false; }
             color.set(Color.YELLOW);
+            strokeColor.set(Color.YELLOW);
             if(this.agent != null){
                 LogEntry newEntry  = agent.createLogEntry();
                 sendLogEntry(newEntry);
