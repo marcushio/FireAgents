@@ -89,7 +89,10 @@ public class Node extends Observable implements Runnable{
         this.location = coordinate;
     }
 
-    public boolean setNullAgent(){ agent = null; return true; }
+    public boolean setNullAgent(){
+        agent = null;
+        strokeColor.set(color.get());
+        return true; }
 
     public boolean hasAgent(){
         if(this.agent != null) { return true;}
@@ -100,8 +103,9 @@ public class Node extends Observable implements Runnable{
      * Allows an agent to travel to node if node does not currently have an agent
      */
     public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? yeah I should lock this down so it's not interrupted and have some other agent gank the spot
-        strokeColor.set(Color.MEDIUMPURPLE);
-        if(!color.get().equals(Color.RED) || this.agent == null){
+        strokeColor.set(Color.LIMEGREEN);
+        strokeColor.set(Color.LIMEGREEN);
+        if(!color.get().equals(Color.RED) && this.agent == null){
             this.agent = agent;
             return true;
         }
