@@ -26,7 +26,6 @@ import java.util.concurrent.BlockingQueue;
 
 public class Node extends Observable implements Runnable{
     //Do we need locks and conditions?
-
     private ObjectProperty<Color> color = new ColorPicker(Color.BLUE).valueProperty();
     private ObjectProperty<Color> strokeColor = new ColorPicker(Color.BLUE).valueProperty();
     private Coordinate location;
@@ -160,6 +159,7 @@ public class Node extends Observable implements Runnable{
             if(this.agent != null){
                 strokeColor.set(Color.PURPLE);
                 LogEntry newEntry  = agent.createLogEntry();
+                agent.cloneToNeighbors();
                 sendLogEntry(newEntry);
         }
             else strokeColor.set(Color.YELLOW);

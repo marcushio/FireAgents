@@ -102,7 +102,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     /**
      * Agent copies itself and spreads copies to all neighbor nodes
      */
-    private synchronized void cloneToNeighbors(){ //this might have to
+    public void cloneToNeighbors(){ //this might have to be synchronized, it used to be.
         for(Node node : host.getNeighbors() ){
             if( node.acceptAgent(new Agent(this, node)) ){
                System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
