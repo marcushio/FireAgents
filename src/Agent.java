@@ -105,7 +105,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     private synchronized void cloneToNeighbors(){ //this might have to
         for(Node node : host.getNeighbors() ){
             if( node.acceptAgent(new Agent(this, node)) ){
-               // System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
+               System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
                 host.receiveLogEntry( createLogEntry() ); //createLogEntry returns boolean do we have this do something if that fails?
             }
         }
