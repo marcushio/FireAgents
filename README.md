@@ -10,19 +10,20 @@ the behavior of forest fires.
 ### Usage
 
 Run the program from the command-line, feeding in an argument with the complete path to the configuration file
-you will use.
+you will use. You'll need to use \\ instead of \ for windows. 
 
 ### Project Assumptions
 
-List any assumptions outside of one's specified in project writeup.
+
 
 ### Design Choice
-For parsing the configuration file, we decided to...
+For parsing the configuration file, we decided that if duplicate stations are given, the station will be specified by the entry lowest in the document.
+Othwerwise, we assume configuration files will match what was given in the pdf. Using files with invalid words or formats will likely crash the program.
 
 Explain any special algorithm, data structure, or logic used that was crucial to
 solving the problem. Also explain any design choice you feel is important.
 
-Agents had unique ids by ... 
+The unique ID of each agent is specified by the a timestamp of when it was created and the node it was created from. 
 
 ### Versions
 
@@ -33,10 +34,9 @@ All version submitted and their features.
 The design document is in the doc folder.
 
 ### Known Issues
-Does not have Coordinate class
-Does not extract data from config file strings into any structures.
-Does not handle redundant station specs coming in from the config file
+
 
 ### Testing and Debugging
 
-Include any testing and debugging procedures you performed, if any.
+Testing included running the program and watching the simulation multiple times with various config files.
+Debugging was performed with the Intellij IDE. 
