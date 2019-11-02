@@ -27,6 +27,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     }
 
     public Agent(Agent parentAgent, Node newHost){
+        host = newHost;
         hasFoundFire = true;
        // parentAgent.name.charAt()
         id = LocalDateTime.now()  + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
@@ -64,7 +65,6 @@ public class Agent implements Runnable{ //should these guys be observable? I don
 
         }
     }
-
 
     /**
      * @return whether this agent or it's parent has gotten near a node that has fire or not because this effects our behavior.
