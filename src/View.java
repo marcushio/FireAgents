@@ -86,8 +86,8 @@ public class View{
         }
         Text stationIndicator = new Text("S");
         stationIndicator.setFont(Font.font("Verdana", FontWeight.BOLD, NODE_RADIUS*1.5));
-        stationIndicator.setX(network.getStationCoordinate().getX()-NODE_RADIUS/2);
-        stationIndicator.setY(network.getStationCoordinate().getY()+NODE_RADIUS/2);
+        stationIndicator.setX(SCALE_FACTOR*network.getStationCoordinate().getX()-NODE_RADIUS/2.0);
+        stationIndicator.setY(SCALE_FACTOR*network.getStationCoordinate().getY()+NODE_RADIUS/2.0);
         stationIndicator.setFill(Color.LIGHTGREY);
         networkShapes.getChildren().add(stationIndicator);
         Translate translate = new Translate();
