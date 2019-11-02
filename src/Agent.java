@@ -1,4 +1,5 @@
-import java.awt.*;
+import javafx.scene.paint.Color;
+
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,9 +34,13 @@ public class Agent implements Runnable{ //should these guys be observable? I don
 
     }
 
+    /**
+     * kill this particular agent by setting alive to false so it's run() finishes and the thread terminates.
+     */
     public void kill(){
         alive = false;
     }
+
     @Override
     public void run(){
         alive = true;
@@ -43,14 +48,19 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             while (!hasFoundFire) {
                 step();
                 if (host.getColor().get().equals(Color.YELLOW)) {
+                    hasFoundFire = true;
+                   // System.out.println("I found fire ");
                     cloneToNeighbors();
                 } else if(host.getColor().get().equals(Color.RED)){
                     alive = false;
                 }
                 try{ Thread.sleep(3000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
             }
-
-
+            if (host.getColor().get().equals(Color.YELLOW)) {
+                cloneToNeighbors();
+            } else if(host.getColor().get().equals(Color.RED)){
+                alive = false;
+            }
 
         }
     }
@@ -73,12 +83,10 @@ public class Agent implements Runnable{ //should these guys be observable? I don
      */
     private boolean step() {
         Random random = new Random();
-        Node newHost = host.getNeighbors().get(random.nextInt(host.numNeighbors()));
+        Node newHost = this.host.getNeighbors().get(random.nextInt(host.numNeighbors()));
         if (newHost.acceptAgent(this)) {
-            Node oldHost = host;
-            oldHost.setNullAgent();
-            host = newHost;
-            if(host.getColor().get().equals(Color.YELLOW)){ hasFoundFire = true; }// System.out.println("I found fire ");}
+            host.setNullAgent(); //set the last host's agent to null
+            host = newHost; //set this agents host to our new host.
             //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
             return true;
         }
@@ -97,7 +105,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     private synchronized void cloneToNeighbors(){ //this might have to
         for(Node node : host.getNeighbors() ){
             if( node.acceptAgent(new Agent(this, node)) ){
-                System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
+               // System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
                 host.receiveLogEntry( createLogEntry() ); //createLogEntry returns boolean do we have this do something if that fails?
             }
         }
