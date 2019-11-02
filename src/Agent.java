@@ -17,7 +17,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     private String name;
     private boolean hasFoundFire; //need some kind of flag so we can walk at appropriate times.
     private Node host; //it has to know which Node it's on and figure out what neighbors it can visit.
-
+    private boolean alive = false;
     public Agent(Node newHost){
         this.host = newHost;
         this.name = "0 1";
@@ -26,26 +26,32 @@ public class Agent implements Runnable{ //should these guys be observable? I don
     }
 
     public Agent(Agent parentAgent, Node newHost){
-        hasFoundFire = parentAgent.hasFoundFire();
+        hasFoundFire = true;
        // parentAgent.name.charAt()
-        id = LocalDateTime.now() + " " + parentAgent.name + " " + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
+        id = LocalDateTime.now()  + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
         //make a new name based on the location this was cloned from and the time
 
     }
 
+    public void kill(){
+        alive = false;
+    }
     @Override
     public void run(){
-        boolean alive = true;
+        alive = true;
         while(alive) {
             while (!hasFoundFire) {
                 step();
+                if (host.getColor().get().equals(Color.YELLOW)) {
+                    cloneToNeighbors();
+                } else if(host.getColor().get().equals(Color.RED)){
+                    alive = false;
+                }
                 try{ Thread.sleep(3000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
             }
-            if (host.getColor().equals(Color.YELLOW)) {
-                cloneToNeighbors();
-            } else if(host.getColor().equals(Color.RED)){
-                alive = false;
-            }
+
+
+
         }
     }
 
@@ -72,7 +78,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             Node oldHost = host;
             oldHost.setNullAgent();
             host = newHost;
-            if(host.getColor().equals(Color.YELLOW)){ hasFoundFire = true; }// System.out.println("I found fire ");}
+            if(host.getColor().get().equals(Color.YELLOW)){ hasFoundFire = true; }// System.out.println("I found fire ");}
             //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
             return true;
         }

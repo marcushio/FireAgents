@@ -30,7 +30,7 @@ public class Fire implements Runnable{
             }
 
             try {
-                Thread.sleep(2500); //spread fire every however long
+                Thread.sleep(3000); //spread fire every however long
             } catch (InterruptedException ex){
                 ex.printStackTrace();
             }
