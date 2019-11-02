@@ -58,6 +58,13 @@ public class Network {
     }
 
     /**
+     * Return coordinate object for station. This is used to set the color of the station node in the GUI.
+     * @return Coordinate of station
+     */
+    public Coordinate getStationCoordinate(){
+        return station.getCoordinate();
+    }
+    /**
      * start our network by putting all node and agent threads into the runnable state
      * @return
      */

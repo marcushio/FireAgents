@@ -7,13 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Translate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 //TODO create code to change colors and also to stroke f
@@ -79,8 +84,15 @@ public class View{
             networkShapes.getChildren().add(newCircle);
             addOutgoingLines(ithNode);
         }
+        Text stationIndicator = new Text("S");
+        stationIndicator.setFont(Font.font("Verdana", FontWeight.BOLD, NODE_RADIUS*1.5));
+        stationIndicator.setX(network.getStationCoordinate().getX()-NODE_RADIUS/2);
+        stationIndicator.setY(network.getStationCoordinate().getY()+NODE_RADIUS/2);
+        stationIndicator.setFill(Color.LIGHTGREY);
+        networkShapes.getChildren().add(stationIndicator);
         Translate translate = new Translate();
-        translate.setY(NODE_RADIUS+ networkShapes.getTranslateY());
+        translate.setY(NODE_RADIUS*4+ networkShapes.getTranslateY());
+        translate.setX(NODE_RADIUS*4+ networkShapes.getTranslateX());
         networkShapes.getTransforms().add(translate);
         modelDisplay.getChildren().add(networkShapes);
 
