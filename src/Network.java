@@ -38,7 +38,7 @@ public class Network {
     public boolean setStation(Station station){
         if (this.station!=null) return false;
         this.station = station;
-        station.addToLog(new LogEntry("FIRE FIRE", "BIATCH"));
+        station.addToLog(new LogEntry("FIRE FIRE", new Coordinate(0, 0)));
         return true;
     }
 

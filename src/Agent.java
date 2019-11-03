@@ -12,13 +12,17 @@ import java.util.Random;
  * An agent runs on it's own thread. Before any fire is discovered it randomly traverses the network looking for fire.
  * After this, it makes new agents in order to surround the fire and monitor it's spread.
  */
-public class Agent implements Runnable{ //should these guys be observable? I dont think we need to...
-//Do I need to add locks and conditions?
+public class Agent implements Runnable{
     private String id; //composed of creation of time, name, and location it was made
     private String name;
     private boolean hasFoundFire; //need some kind of flag so we can walk at appropriate times.
     private Node host; //it has to know which Node it's on and figure out what neighbors it can visit.
     private boolean alive = false;
+
+    /**
+     * this is used for making an agent that didn't come from another agent, in this context it's our original agent.
+     * @param newHost
+     */
     public Agent(Node newHost){
         this.host = newHost;
         this.name = "0 1";
@@ -26,13 +30,27 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         hasFoundFire = false;
     }
 
+    /**
+     * makes agent from a parent and places it on a new host.
+     * @param parentAgent
+     * @param newHost
+     */
     public Agent(Agent parentAgent, Node newHost){
         host = newHost;
         hasFoundFire = true;
        // parentAgent.name.charAt()
         id = LocalDateTime.now()  + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
         //make a new name based on the location this was cloned from and the time
+    }
 
+    /**
+     * Agent copies itself and spreads copies to all neighbor nodes
+     */
+    public void cloneToNeighbors(){ //this might have to be synchronized, it used to be.
+        for(Node node : host.getNeighbors() ){
+            node.acceptAgent( new Agent(this, node) ) ;
+            System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
+        }
     }
 
     /**
@@ -42,6 +60,18 @@ public class Agent implements Runnable{ //should these guys be observable? I don
         alive = false;
     }
 
+    public String getId(){ return id; }
+
+    /**
+     * @return whether this agent or it's parent has gotten near a node that has fire or not because this effects our behavior.
+     */
+    public boolean hasFoundFire(){ return hasFoundFire;  }
+
+    /**
+     * @return host
+     */
+    public Node getHost(){ return host; }
+
     @Override
     public void run(){
         alive = true;
@@ -50,7 +80,7 @@ public class Agent implements Runnable{ //should these guys be observable? I don
                 step();
                 if (host.getColor().get().equals(Color.YELLOW)) {
                     hasFoundFire = true;
-                   // System.out.println("I found fire ");
+                    // System.out.println("I found fire ");
                     cloneToNeighbors();
                 } else if(host.getColor().get().equals(Color.RED)){
                     alive = false;
@@ -62,24 +92,11 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             } else if(host.getColor().get().equals(Color.RED)){
                 alive = false;
             }
-
         }
+
     }
-
     /**
-     * @return whether this agent or it's parent has gotten near a node that has fire or not because this effects our behavior.
-     */
-    public boolean hasFoundFire(){
-        return hasFoundFire;
-    }
-
-    /**
-     * @return host
-     */
-    public Node getHost(){ return host; }
-
-    /**
-     *
+     * this is how the agent steps from node to node as it traverses the network
      */
     private boolean step() {
         Random random = new Random();
@@ -91,24 +108,6 @@ public class Agent implements Runnable{ //should these guys be observable? I don
             return true;
         }
         return false;
-    }
-
-    public LogEntry createLogEntry(){
-        LogEntry newEntry =  new LogEntry(this.id, host.getCoordinate().toString());
-        newEntry.addVisited(host.getCoordinate());
-        return newEntry;
-    }
-
-    /**
-     * Agent copies itself and spreads copies to all neighbor nodes
-     */
-    public void cloneToNeighbors(){ //this might have to be synchronized, it used to be.
-        for(Node node : host.getNeighbors() ){
-            if( node.acceptAgent(new Agent(this, node)) ){
-               System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
-                host.receiveLogEntry( createLogEntry() ); //createLogEntry returns boolean do we have this do something if that fails?
-            }
-        }
     }
 
 

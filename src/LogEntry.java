@@ -19,18 +19,24 @@ public class LogEntry {
      * @param id
      * @param location
      */
-    public LogEntry(String id, String location){
+    public LogEntry(String id, Coordinate location){
         this.id = id;
-        this.location = location;
+        this.location = location.toString();
+        placesVisited.add(location);
+    }
+
+    public boolean addVisited(Coordinate newCoordinate){
+        if(placesVisited.add(newCoordinate)){ return true; }
+        return false;
+    }
+
+    public boolean hasVisitedCoordinate(Coordinate coordinate){
+        if(placesVisited.contains(coordinate)){return true;}
+        return false;
     }
 
     @Override
     public String toString(){
         return "Agent ID: " + id + "\nAgent Location: " + location + "\n" ;
-    }
-
-    public boolean addVisited(Coordinate newCoordinate){
-        if(placesVisited.add(newCoordinate)){return true;}
-        return false;
     }
 }
