@@ -49,7 +49,6 @@ public class Agent implements Runnable{
     public void cloneToNeighbors(){ //this might have to be synchronized, it used to be.
         for(Node node : host.getNeighbors() ){
             node.acceptAgent( new Agent(this, node) ) ;
-            System.out.println("Agent " + id + " just cloned to " + node.getCoordinate().toString());
         }
     }
 
