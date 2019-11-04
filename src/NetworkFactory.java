@@ -9,6 +9,7 @@ public class NetworkFactory {
     Network network = new Network();
     FileHandler handler = new FileHandler();
     String pathToConfigFile;
+    
 
     public NetworkFactory(String pathToConfigFile){
         this.pathToConfigFile = pathToConfigFile;
@@ -16,9 +17,9 @@ public class NetworkFactory {
 
     public Network build(){
         handler.setSpecs(pathToConfigFile);
+        setStation(handler.getStationSpec());
         setNodes(handler.getNodeSpecs());
         setEdges(handler.getEdgeSpecs());
-        setStation(handler.getStationSpec());
         setFire(handler.getFireSpec());
         return network;
     }
@@ -44,7 +45,11 @@ public class NetworkFactory {
             Scanner scanner = new Scanner(nodeSpec);
             scanner.next();
             Coordinate coordinate = new Coordinate(scanner.nextInt(), scanner.nextInt());
-            Node node = new Node();
+            Node node;
+            if (coordinate.equals(network.getStationCoordinate())){
+                node = new Station();
+            }
+            else node = new Node();
             node.setCoordinate(coordinate);
             network.put(coordinate,node);
 
