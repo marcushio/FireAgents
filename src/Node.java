@@ -1,10 +1,6 @@
 //import jdk.nashorn.internal.ir.Block;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -13,7 +9,6 @@ import javafx.scene.paint.Paint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -109,7 +104,7 @@ public class Node extends Observable implements Runnable{
         if(!color.get().equals(Color.RED) && this.agent == null){
             this.agent = agent;
             strokeColor.set(Color.MEDIUMPURPLE);
-            if (agent.hasFoundFire()){ messageBuffer.add( createLogEntry() );}
+            if (agent.hasFoundFire()){ getMessageBuffer().add( createLogEntry() );}
             return true;
         }
         return false;
@@ -119,7 +114,7 @@ public class Node extends Observable implements Runnable{
      * @return
      */
     public boolean receiveLogEntry(LogEntry newEntry){
-        if( messageBuffer.add(newEntry) ) {
+        if( getMessageBuffer().add(newEntry) ) {
             notifyAll();
             return true;
         }
@@ -142,9 +137,9 @@ public class Node extends Observable implements Runnable{
     public void run(){
         //wait until something gets into the message buffer then send the message out. This will be more efficient
         //put in loop to be sure the condition is actually met...
-        while( !messageBuffer.isEmpty() ){
+        while( !getMessageBuffer().isEmpty() ){
             try {
-                LogEntry pendingMessage = messageBuffer.take();
+                LogEntry pendingMessage = getMessageBuffer().take();
                 //this is a naive DFS I'm pretty sure I'm going to have to make it more robust afer
                 for(Node node : neighbors){
                     if(!pendingMessage.hasVisitedCoordinate( node.getCoordinate() )){
@@ -200,5 +195,9 @@ public class Node extends Observable implements Runnable{
 
     public ObservableValue<? extends Paint> getStrokeColor() {
         return strokeColor;
+    }
+
+    public BlockingQueue<LogEntry> getMessageBuffer() {
+        return messageBuffer;
     }
 }

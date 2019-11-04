@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class Station {
+public class Station extends Node {
     private Log log = new Log();
     private Coordinate coordinate;
 
@@ -32,4 +32,17 @@ public class Station {
     public StringProperty getEntriesProperty(){
         return log.getEntriesProperty();
     }
+
+    @Override
+    public void run(){
+        while(!super.getMessageBuffer().isEmpty()){
+            try {
+            addToLog( super.getMessageBuffer().take() );
+            wait();
+            } catch(InterruptedException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }
