@@ -1,19 +1,13 @@
 //import jdk.nashorn.internal.ir.Block;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -110,6 +104,7 @@ public class Node extends Observable implements Runnable{
             this.agent = agent;
             strokeColor.set(Color.MEDIUMPURPLE);
             if (agent.hasFoundFire()){ messageBuffer.add( createLogEntry() );}
+            System.out.println("Agent " + agent.getId() + " just cloned to " + this.getCoordinate().toString());
             return true;
         }
         return false;
