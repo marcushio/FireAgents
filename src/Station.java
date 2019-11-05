@@ -1,4 +1,5 @@
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
@@ -13,6 +14,7 @@ public class Station {
      * @param entry LogEntry instance containing log info
      */
     public void addToLog(LogEntry entry){
+        log.getEntriesProperty().set(entry.toString());
         log.addEntry(entry.toString());
     }
 

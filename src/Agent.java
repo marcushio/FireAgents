@@ -91,12 +91,10 @@ public class Agent implements Runnable{
             host = newHost; //set this agents host to our new host.
             if (host.getColor().get().equals(Color.YELLOW)) {
                 hasFoundFire = true;
-                System.out.println(id + " found fire ");
                 cloneToNeighbors();
             }
             return true;
         }
-            //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
 
         return false;
     }
