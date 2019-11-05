@@ -51,13 +51,6 @@ public class View{
      * @param primaryStage
      */
     public View(Stage primaryStage, Network network){
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                Platform.exit();
-                System.exit(0);
-            }
-        });
         this.network = network;
         Scene scene = new Scene(makeRoot(),primaryStage.getMaxWidth(), primaryStage.getMaxWidth());
         primaryStage.setScene(scene);
@@ -128,8 +121,8 @@ public class View{
         log.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth()/4);
         log.setPrefHeight(Screen.getPrimary().getVisualBounds().getMaxY());
         log.setWrapText(true);
-        ScrollPane logContainer = new ScrollPane(log);
-        return logContainer;
+        logDisplay = new ScrollPane(log);
+        return logDisplay;
     }
     private void bindNodes(){}
     private void bindLog(){}
