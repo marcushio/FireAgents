@@ -1,6 +1,7 @@
 //import jdk.nashorn.internal.ir.Block;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -26,7 +27,7 @@ public class Node extends Observable implements Runnable{
     private List<Node> neighbors = new ArrayList<Node>();
     private BlockingQueue<LogEntry> messageBuffer = new ArrayBlockingQueue<LogEntry>(1000);
     private Agent agent;
-
+    public static Station station;
     /**
      * Return color integer property of this node so it may be bound to a property in the gui
      * @return This node's color integer property which will be 0,1, or 2 depending on if the node is
@@ -49,7 +50,6 @@ public class Node extends Observable implements Runnable{
                 agent.kill();
                 agent = null;
             }
-           // System.out.println("I am node at " + location.toString() + "and I caught fire.");
         }
         return true;
     }
@@ -63,6 +63,10 @@ public class Node extends Observable implements Runnable{
         if(neighbors.contains(neighbor)){ return false; }
         neighbors.add(neighbor);
         return true;
+    }
+
+    public void setStation(Station station){
+        this.station = station;
     }
 
     public int numNeighbors(){
@@ -107,7 +111,9 @@ public class Node extends Observable implements Runnable{
                 this.agent.findFire();
             }
             if (this.agent.hasFoundFire()){
-                messageBuffer.add( createLogEntry() );
+                LogEntry entry = createLogEntry();
+                messageBuffer.add( entry);
+                station.addToLog(entry);
             }
             return true;
         }
@@ -139,25 +145,31 @@ public class Node extends Observable implements Runnable{
      *
      */
     @Override
-    public void run(){
+    public void run() {
         //wait until something gets into the message buffer then send the message out. This will be more efficient
         //put in loop to be sure the condition is actually met...
 
-        while( !messageBuffer.isEmpty() ){
+        while (!messageBuffer.isEmpty()) {
             try {
                 LogEntry pendingMessage = messageBuffer.take();
-                //this is a naive DFS I'm pretty sure I'm going to have to make it more robust afer
-                for(Node node : neighbors){
-                    if(!pendingMessage.hasVisitedCoordinate( node.getCoordinate() )){
-                        node.receiveLogEntry(pendingMessage);
-                        break;
-                    }
-                }
+                station.addToLog(pendingMessage);
+                handleLogEntry(pendingMessage);
                 wait();
-            } catch (InterruptedException ex ){ ex.printStackTrace(); }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
         }
-
     }
+    public void handleLogEntry(LogEntry pendingMessage) {
+        //this is a naive DFS I'm pretty sure I'm going to have to make it more robust afer
+        for(Node node : neighbors){
+            if(!pendingMessage.hasVisitedCoordinate( node.getCoordinate() )){
+                node.receiveLogEntry(pendingMessage);
+                break;
+            }
+    }
+
+}
 
     /**
      * @return all neighbors of this node that are yellow.

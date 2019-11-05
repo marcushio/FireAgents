@@ -28,7 +28,6 @@ public class Fire implements Runnable{
             Node fireTarget = chooseTarget();
             if(fireTarget.ignite()){ //if we light a neighbor on fire
                 hosts.add(fireTarget);   //the fire now lives on the thing we set fire to
-               // System.out.println("I'm the fire I just arrived at " + host.getCoordinate().toString());
             }
         }
     }

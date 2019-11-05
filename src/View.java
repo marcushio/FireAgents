@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-//TODO create code to change colors and also to stroke f
 /**
  * @author: Marcus Trujillo
  * @version: 10/22/19
@@ -115,7 +114,7 @@ public class View{
 
     private void makeEdges(){}
     private ScrollPane makeLog(){
-        TextArea log = new TextArea();
+        log = new TextArea();
         log.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth()/4);
         log.setPrefHeight(Screen.getPrimary().getVisualBounds().getMaxY());
         log.setWrapText(true);
