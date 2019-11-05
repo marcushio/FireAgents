@@ -39,12 +39,12 @@ public class Node extends Observable implements Runnable{
      * Called when this node is on fire. It has to be called from another node because fire travels along communication lines
      * @return
      */
-    public boolean ignite(){
+    public synchronized boolean ignite(){
         if(color.get().equals(Color.RED)) return false;
         else{
-            sendDeathMessage();
             color.set(Color.RED);
             strokeColor.set(Color.RED);
+            sendDeathMessage();
             if(agent != null) {
                 agent.kill();
                 agent = null;
@@ -99,23 +99,28 @@ public class Node extends Observable implements Runnable{
     /**
      * Allows an agent to travel to node if node does not currently have an agent
      */
-    public boolean acceptAgent(Agent agent){ //is this going to be an issue ?? it used to be synchronized
+    public synchronized boolean acceptAgent(Agent agent){ //is this going to be an issue ?? it used to be synchronized
         if(!color.get().equals(Color.RED) && this.agent == null){
             this.agent = agent;
             strokeColor.set(Color.MEDIUMPURPLE);
-            if (agent.hasFoundFire()){ messageBuffer.add( createLogEntry() );}
-            System.out.println("Agent " + agent.getId() + " just cloned to " + this.getCoordinate().toString());
+            if(color.get().equals(Color.YELLOW)) {
+                this.agent.findFire();
+            }
+            if (this.agent.hasFoundFire()){
+                messageBuffer.add( createLogEntry() );
+            }
             return true;
         }
         return false;
     }
+
     /**
      * Receives a log entry and if it gets in return true.
      * @return
      */
     public boolean receiveLogEntry(LogEntry newEntry){
         if( messageBuffer.add(newEntry) ) {
-            notifyAll();
+            messageBuffer.notifyAll();
             return true;
         }
         return false;
@@ -137,6 +142,7 @@ public class Node extends Observable implements Runnable{
     public void run(){
         //wait until something gets into the message buffer then send the message out. This will be more efficient
         //put in loop to be sure the condition is actually met...
+
         while( !messageBuffer.isEmpty() ){
             try {
                 LogEntry pendingMessage = messageBuffer.take();
@@ -180,15 +186,14 @@ public class Node extends Observable implements Runnable{
      * this method is called by a neighbor if that neighbor catches fire.
      * @return true if the color is actually changed to yellow false if it was already yellow
      */
-    private boolean setToYellow(){
+    private synchronized boolean setToYellow(){
         if(color.get().equals(Color.YELLOW)){ return false; }
         if(color.get().equals(Color.RED)) { return false; }
-            color.set(Color.YELLOW);
-            if(this.agent != null){
-                strokeColor.set(Color.PURPLE);
-                agent.cloneToNeighbors();
-        }
-            else strokeColor.set(Color.YELLOW);
+        color.set(Color.YELLOW);
+        if(this.agent != null){
+            strokeColor.set(Color.PURPLE);
+            this.agent.cloneToNeighbors();
+        } else strokeColor.set(Color.YELLOW);
         return true;
     }
 

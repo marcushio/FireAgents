@@ -44,11 +44,11 @@ public class Agent implements Runnable{
     }
 
     /**
-     * Agent copies itself and spreads copies to all neighbor nodes
+     * Agent copies itself and spreads copies to all neighbor nodes. Host nodes are in charge of calling this.
      */
     public void cloneToNeighbors(){ //this might have to be synchronized, it used to be.
         for(Node node : host.getNeighbors() ){
-            node.acceptAgent( new Agent(this, node) ) ;
+            node.acceptAgent( new Agent(this, node) );
         }
     }
 
@@ -61,15 +61,13 @@ public class Agent implements Runnable{
 
     public String getId(){ return id; }
 
+    public void findFire(){ hasFoundFire = true; }
+
     /**
      * @return whether this agent or it's parent has gotten near a node that has fire or not because this effects our behavior.
      */
     public boolean hasFoundFire(){ return hasFoundFire;  }
 
-    /**
-     * @return host
-     */
-    public Node getHost(){ return host; }
 
     @Override
     public void run(){
@@ -77,35 +75,33 @@ public class Agent implements Runnable{
         while(alive) {
             while (!hasFoundFire) {
                 step();
-                if (host.getColor().get().equals(Color.YELLOW)) {
-                    hasFoundFire = true;
-                    // System.out.println("I found fire ");
-                    cloneToNeighbors();
-                } else if(host.getColor().get().equals(Color.RED)){
-                    alive = false;
-                }
-                try{ Thread.sleep(3000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is mostly just here for readability probs delete later.
+                try{ Thread.sleep(3000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is just here for viewability
             }
-            if (host.getColor().get().equals(Color.YELLOW)) {
-                cloneToNeighbors();
-            } else if(host.getColor().get().equals(Color.RED)){
+           if(host.getColor().get().equals(Color.RED)){
                 alive = false;
-            }
+           }
         }
 
     }
     /**
      * this is how the agent steps from node to node as it traverses the network
      */
-    private boolean step() {
+    private synchronized boolean step() {
         Random random = new Random();
         Node newHost = this.host.getNeighbors().get(random.nextInt(host.numNeighbors()));
-        if (newHost.acceptAgent(this)) {
+        if(!newHost.getColor().get().equals(Color.RED) && !newHost.hasAgent()){
+            newHost.acceptAgent(this);
             host.setNullAgent(); //set the last host's agent to null
             host = newHost; //set this agents host to our new host.
-            //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
+            if (host.getColor().get().equals(Color.YELLOW)) {
+                hasFoundFire = true;
+                System.out.println(id + " found fire ");
+                cloneToNeighbors();
+            }
             return true;
         }
+            //System.out.println("Agent " + id + " Stepped to " + host.getCoordinate().toString());
+
         return false;
     }
 
