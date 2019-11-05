@@ -14,7 +14,6 @@ import java.util.Random;
  */
 public class Agent implements Runnable{
     private String id; //composed of creation of time, name, and location it was made
-    private String name;
     private boolean hasFoundFire; //need some kind of flag so we can walk at appropriate times.
     private Node host; //it has to know which Node it's on and figure out what neighbors it can visit.
     private boolean alive = false;
@@ -25,8 +24,7 @@ public class Agent implements Runnable{
      */
     public Agent(Node newHost){
         this.host = newHost;
-        this.name = "0 1";
-        this.id = LocalDateTime.now() + " " + this.name + " " + newHost.getCoordinate().toString();
+        this.id = LocalDateTime.now() + " " + newHost.getCoordinate().toString();
         hasFoundFire = false;
     }
 
@@ -38,9 +36,7 @@ public class Agent implements Runnable{
     public Agent(Agent parentAgent, Node newHost){
         host = newHost;
         hasFoundFire = true;
-       // parentAgent.name.charAt()
-        id = LocalDateTime.now()  + newHost.getCoordinate().toString(); //probably increment the name somehow so it's not identical to parent
-        //make a new name based on the location this was cloned from and the time
+        id = LocalDateTime.now()  + " " + newHost.getCoordinate().toString();
     }
 
     /**
