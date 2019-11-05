@@ -71,7 +71,7 @@ public class Agent implements Runnable{
         while(alive) {
             while (!hasFoundFire) {
                 step();
-                try{ Thread.sleep(3000); } catch (InterruptedException ex){ ex.printStackTrace();} //this is just here for viewability
+                try{ Thread.sleep(2621); } catch (InterruptedException ex){ ex.printStackTrace();} //this is just here for viewability
             }
            if(host.getColor().get().equals(Color.RED)){
                 alive = false;

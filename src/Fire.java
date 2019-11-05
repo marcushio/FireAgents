@@ -21,7 +21,7 @@ public class Fire implements Runnable{
 
         while(true){ //run while the program is open
             try {
-                Thread.sleep(3000); //spread fire every however long
+                Thread.sleep(2539); //spread fire every however long
             } catch (InterruptedException ex){
                 ex.printStackTrace();
             }
