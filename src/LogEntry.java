@@ -25,14 +25,40 @@ public class LogEntry {
         placesVisited.add(location);
     }
 
+    /**
+     * adds a coordinate to the list of places this node has been.
+     * @param newCoordinate
+     * @return
+     */
     public boolean addVisited(Coordinate newCoordinate){
         if(placesVisited.add(newCoordinate)){ return true; }
         return false;
     }
 
+    /**
+     * checks to see if this entry has been to a particular location
+     * @param coordinate
+     * @return
+     */
     public boolean hasVisitedCoordinate(Coordinate coordinate){
         if(placesVisited.contains(coordinate)){return true;}
         return false;
+    }
+
+    /**
+     * checks to see if a message has already visited all neighboring nodes
+     * @return
+     */
+    public boolean hasVisitedNeighbors(Node currentHost){
+        if( currentHost.getNeighbors().containsAll(placesVisited) ) return true;
+        return false;
+    }
+
+    /**
+     * clears the record of all places this entry has been.
+     */
+    public void emptyPlacesVisited(){
+        placesVisited.clear();
     }
 
     @Override

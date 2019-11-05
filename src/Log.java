@@ -18,6 +18,7 @@ import java.util.List;
 public class Log {
     List<String> entries = new ArrayList<>();
     SimpleStringProperty lastEntry = new SimpleStringProperty();
+
     /**
      * Add an entry into our log
      * @param entry

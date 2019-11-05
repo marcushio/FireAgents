@@ -115,12 +115,21 @@ public class Node extends Observable implements Runnable{
     }
 
     /**
+     * @return this node's message buffer
+     */
+    public BlockingQueue<LogEntry> getMessageBuffer(){
+        return messageBuffer;
+    }
+
+    /**
      * Receives a log entry and if it gets in return true.
      * @return
      */
     public boolean receiveLogEntry(LogEntry newEntry){
+        if(color.get().equals(Color.RED)){ return false; }
         if( messageBuffer.add(newEntry) ) {
             messageBuffer.notifyAll();
+            System.out.println( messageBuffer.peek().toString() );
             return true;
         }
         return false;
@@ -142,11 +151,11 @@ public class Node extends Observable implements Runnable{
     public void run(){
         //wait until something gets into the message buffer then send the message out. This will be more efficient
         //put in loop to be sure the condition is actually met...
-
         while( !messageBuffer.isEmpty() ){
             try {
                 LogEntry pendingMessage = messageBuffer.take();
-                //this is a naive DFS I'm pretty sure I'm going to have to make it more robust afer
+                //this is a naive DFS I'm pretty sure I'm going to have to make it more robust after
+                if(pendingMessage.hasVisitedNeighbors(this)){ pendingMessage.emptyPlacesVisited(); }
                 for(Node node : neighbors){
                     if(!pendingMessage.hasVisitedCoordinate( node.getCoordinate() )){
                         node.receiveLogEntry(pendingMessage);
@@ -156,7 +165,6 @@ public class Node extends Observable implements Runnable{
                 wait();
             } catch (InterruptedException ex ){ ex.printStackTrace(); }
         }
-
     }
 
     /**

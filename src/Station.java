@@ -29,6 +29,10 @@ public class Station {
      */
     public Coordinate getCoordinate(){ return coordinate; }
 
+    /**
+     * get this stations entries property
+     * @return
+     */
     public StringProperty getEntriesProperty(){
         return log.getEntriesProperty();
     }
