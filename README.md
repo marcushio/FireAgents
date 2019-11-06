@@ -9,7 +9,13 @@ central base station to log the behavior of forest fires.
 _How to Run_
 Run the program from the command-line, feeding in an argument with the complete
 path to the configuration file you will use. You'll need to use \\ instead of \ for windows.
-i.e. C:\\fireFolder\\config.txt
+i.e. C:\\fireFolder\\config.txt.
+-The following command was successfully used during testing...
+  "java -jar fire-monitor-simulation_coltonbtrujillo_marcustrujillo.jar C:\\config\\config.txt"
+  of course during your run, change the last argument to where you have the configuration file stored.
+The program runs indefinitely (because we never put out the fire) so after all Nodes
+have burnt just ctrl+c (standard quitting in windows) in the command line to stop
+the simulation. 
 
 _How to read display_
 1. Node Colors -
@@ -59,7 +65,7 @@ The design document is in the doc folder.
 _Division of Labor_
 Marcus Trujillo
  -Implementation of Fire, Messaging, Agent Behavior, some node behavior,
-  most concurrency behaviors. 
+  most concurrency behaviors.
 Colton Trujillo
  -GUI work, a LOT of debugging Marcus' code, Node changing colors/status, initialization
   of the program and processing of configuration files, created configuration files
