@@ -1,3 +1,10 @@
+
+/**
+ * @author: Colton Trujillo
+ * @version: 10/29/2019
+ *
+ * A coordinate is the spatial location in the network.
+ */
 public class Coordinate {
     private int x,y;
 
@@ -37,17 +44,23 @@ public class Coordinate {
     }
 
     /**
-     *
+     * our string representation
      */
     @Override
     public String toString(){
         return x + "," + y;
     }
 
+    /**
+     * @return x
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * @return y
+     */
     public double getY() {
         return y;
     }

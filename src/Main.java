@@ -5,6 +5,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author Marcus Trujillo
+ * @author Colton Trujillo
+ * @version 11/03/2019
+ *
+ * The main is basically responsible for initialization of the program and getting things running.
+ *
+ */
 
 public class Main extends Application {
     Network network;

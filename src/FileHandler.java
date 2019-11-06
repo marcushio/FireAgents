@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Colton Trujillo
+ * @version 10/29/2019
+ *
+ * Handles the parsing of the configuration file.
+ */
+
 public class FileHandler {
     private List<String> nodeSpecs = new ArrayList<>();
     private List<String> edgeSpecs = new ArrayList<>();;
@@ -34,18 +41,32 @@ public class FileHandler {
 
     }
 
+    /**
+     * @return specs about the nodes
+     */
     public List<String> getNodeSpecs() {
         return nodeSpecs;
     }
 
+    /**
+     * @return the specs about the edges
+     */
     public List<String> getEdgeSpecs() {
         return edgeSpecs;
     }
 
+    /**
+     *
+     * @return specs about the station
+     */
     public String getStationSpec() {
         return stationSpec;
     }
 
+    /**
+     *
+     * @return the specs about the fire
+     */
     public String getFireSpec() {
         return fireSpec;
     }

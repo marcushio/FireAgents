@@ -25,8 +25,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 /**
- * @author: Marcus Trujillo
- * @version: 10/22/19
+ * @author: Colton Trujillo
+ * @version: 11/01/19
  * The view class is our GUI that visually represents the state of our simulation. It has a log that can scroll on the right
  * and a display of the nodes to the left that can also scroll. Nodes will be placed at given locations and no scaling will be
  * done. Binds the changing components to their counterparts in the Network instance.

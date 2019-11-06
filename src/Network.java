@@ -1,7 +1,6 @@
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,9 @@ import java.util.concurrent.Executors;
  * @author: Marcus Trujillo
  * @author: Colton Trujillo
  * @version: 10/31/19
- * brief class description
+ *
+ * Represents the conglomeration of nodes and edges to make our network graph. The station node and fire are also in here.
+ *
  */
 public class Network {
     private Map<Coordinate, Node> coordinateNodeMap = new HashMap<>();
@@ -21,10 +22,20 @@ public class Network {
     private Fire fire;
     private ExecutorService service = Executors.newCachedThreadPool();
 
+    /**
+     * add a coordinate/node pair.
+     * @param coordinate
+     * @param node
+     */
     public void put(Coordinate coordinate, Node node){
         coordinateNodeMap.put(coordinate,node);
     }
 
+    /**
+     * set a node on fire at a particular coordinate
+     * @param coordinate
+     * @return
+     */
     public boolean setFire(Coordinate coordinate){
         Node node;
         if((node = coordinateNodeMap.get(coordinate))!= null){
@@ -35,13 +46,22 @@ public class Network {
         return false;
     }
 
+    /**
+     * set our station at a particular location
+     * @param station
+     * @return
+     */
     public boolean setStation(Station station){
         if (this.station!=null) return false;
         this.station = station;
-        station.addToLog(new LogEntry("FIRE FIRE", new Coordinate(0, 0)));
         return true;
     }
 
+    /**
+     * add an edge to the network
+     * @param node1Coordinate
+     * @param node2Coordinate
+     */
     public void addEdge(Coordinate node1Coordinate, Coordinate node2Coordinate){
         Node node1 = coordinateNodeMap.get(node1Coordinate);
         Node node2 = coordinateNodeMap.get(node2Coordinate);
@@ -49,10 +69,17 @@ public class Network {
         node2.addNeighbor(node1);
     }
 
+    /**
+     * @return our coordinate map
+     */
     public Map<Coordinate, Node> getCoordinateNodeMap() {
         return coordinateNodeMap;
     }
 
+    /**
+     *
+     * @return our station
+     */
     public Station getStation() {
         return station;
     }
@@ -64,6 +91,7 @@ public class Network {
     public Coordinate getStationCoordinate(){
         return station.getCoordinate();
     }
+
     /**
      * start our network by putting all node and agent threads into the runnable state
      * @return

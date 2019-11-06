@@ -1,4 +1,3 @@
-//import jdk.nashorn.internal.ir.Block;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * @author: Marcus Trujillo
  * @author: Colton Trujillo
- * @version:
+ * @version: 11/04/2019
  * Represents the node sensors in the network that can change color.
  */
 
@@ -151,13 +150,12 @@ public class Node extends Observable implements Runnable{
     }
 
     /**
-     *
+     * these guys basically wait for fire and get their status changed while they pass messages along.
      */
     @Override
     public void run() {
         //wait until something gets into the message buffer then send the message out. This will be more efficient
         //put in loop to be sure the condition is actually met...
-
         while( !messageBuffer.isEmpty() ){
             try {
                 LogEntry pendingMessage = messageBuffer.take();
@@ -175,8 +173,13 @@ public class Node extends Observable implements Runnable{
             }
         }
     }
+
+    /**
+     * how we handle log entries on nodes.
+     * @param pendingMessage
+     */
     public void handleLogEntry(LogEntry pendingMessage) {
-        //this is a naive DFS I'm pretty sure I'm going to have to make it more robust afer
+        //this is a naive DFS I'm pretty sure I'm going to have to make it more robust after
         for(Node node : neighbors){
             if(!pendingMessage.hasVisitedCoordinate( node.getCoordinate() )){
                 node.receiveLogEntry(pendingMessage);

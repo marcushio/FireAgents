@@ -1,5 +1,4 @@
 import javafx.scene.paint.Color;
-
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
@@ -7,7 +6,7 @@ import java.util.Random;
 
 /**
  * @author: Marcus Trujillo
- * @version: 10/25/2019
+ * @version: 11/03/2019
  *
  * An agent runs on it's own thread. Before any fire is discovered it randomly traverses the network looking for fire.
  * After this, it makes new agents in order to surround the fire and monitor it's spread.
@@ -55,8 +54,14 @@ public class Agent implements Runnable{
         alive = false;
     }
 
+    /**
+     * @return this agents id
+     */
     public String getId(){ return id; }
 
+    /**
+     * set this agent so it has found fire. This is typically how a Node will tell an agent it's near fire
+     */
     public void findFire(){ hasFoundFire = true; }
 
     /**
@@ -64,7 +69,9 @@ public class Agent implements Runnable{
      */
     public boolean hasFoundFire(){ return hasFoundFire;  }
 
-
+    /**
+     * The agents run is basically it stepping from node to node looking for fire, then dying if it's host Node catches fire.
+     */
     @Override
     public void run(){
         alive = true;
@@ -95,7 +102,6 @@ public class Agent implements Runnable{
             }
             return true;
         }
-
         return false;
     }
 

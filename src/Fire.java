@@ -1,24 +1,28 @@
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * @author: Marcus Trujillo
- * @version:
- * brief class description
+ * @version: 11/01/2019
+ *
+ * Spreads after a fixed interval to other nodes, igniting them.
  */
+
 public class Fire implements Runnable{
     private List<Node> hosts = new ArrayList<>();
 
+    /**
+     * add a host for this fire
+     * @param host
+     */
     public Fire(Node host){
         hosts.add(host);
     }
 
     @Override
     public void run(){
-
         while(true){ //run while the program is open
             try {
                 Thread.sleep(2539); //spread fire every however long

@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * @author: Colton Trujillo
  * This class is responsible for creating the initial state of a Network.
  * To use it, call the public methods build method with a complete path specified by a string to the config file
  */
@@ -10,10 +11,18 @@ public class NetworkFactory {
     FileHandler handler = new FileHandler();
     String pathToConfigFile;
 
+    /**
+     * constructor
+     * @param pathToConfigFile
+     */
     public NetworkFactory(String pathToConfigFile){
         this.pathToConfigFile = pathToConfigFile;
     }
 
+    /**
+     * build the network and
+     * @return the network
+     */
     public Network build(){
         handler.setSpecs(pathToConfigFile);
         setNodes(handler.getNodeSpecs());
@@ -23,12 +32,17 @@ public class NetworkFactory {
         return network;
     }
 
+    /**
+     * retrieve our firespec from the file.
+     * @param fireSpec
+     */
     private void setFire(String fireSpec) {
         Scanner scanner = new Scanner(fireSpec);
         scanner.next();
         Coordinate coordinate = new Coordinate(scanner.nextInt(),scanner.nextInt());
         network.setFire(coordinate);
     }
+
 
     private void setStation(String stationSpec) {
         Scanner scanner = new Scanner(stationSpec);

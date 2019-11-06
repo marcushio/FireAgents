@@ -4,14 +4,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author: Marcus Trujillo
  * @author: Colton Trujillo
- * @version:
+ * @version: 10/28/2019
  * Our log for our simulation. Entries are created whenever an agent makes a copy of itself. This is the collection of
  * all our entries.
  */
@@ -28,6 +27,10 @@ public class Log {
         entries.add(entry);
     }
 
+    /**
+     *
+     * @return the last entry
+     */
     public StringProperty getEntriesProperty(){
         return lastEntry;
     }
