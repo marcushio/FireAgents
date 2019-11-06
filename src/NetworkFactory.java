@@ -37,6 +37,7 @@ public class NetworkFactory {
         Station station = new Station();
         station.setCoordinate(coordinate);
         network.setStation(station);
+        Node.station = station;
     }
 
     private void setNodes(List<String> nodeSpecs){
@@ -47,8 +48,8 @@ public class NetworkFactory {
             Node node = new Node();
             node.setCoordinate(coordinate);
             network.put(coordinate,node);
-
         }
+
     }
     private void setEdges(List<String> edgeSpecs){
         for(String edgeSpec : edgeSpecs){
